@@ -1,0 +1,15 @@
+- tp1:
+  - name: step 2 - Pull ubuntu image
+    test: "docker images ubuntu:latest | grep latest"
+- tp2:
+  - name: step 3 - Pull alpine latest
+    test: "docker images alpine:latest | grep latest"
+- tp3:
+  - name: step 1 - Answer1 (Client version)
+    test: "test $(cat ~/$TRG/answers/answers_tp3.json | jq -r .Answer1) = $(kubectl version --short | cut -d ':' -f2 | head -n 1)"
+- tp4:
+  - name: step 1 - Answer1 (Number of context)
+    test: "test $(cat ~/$TRG/answers/answers_tp4.json | jq -r .Answer1) = 1"
+- tp4:
+  - name: step 2 - Push image app 0.2
+    test: "username=$(jq -r '.[] | .[] | .username' ~/.docker/config.json) && password=$(jq -r '.[] | .[] | .password' ~/.docker/config.json) && curl  https://$username:$password@$REGISTRY_URL/v2/$TRG/app/tags/list | jq .tags | grep 0.2"
